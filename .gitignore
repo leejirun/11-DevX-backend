@@ -8,6 +8,7 @@
 __pycache__/
 local_settings.py
 my_settings.py
+my_settings2.py
 db.sqlite3
 db.sqlite3-journal
 media
@@ -267,3 +268,8 @@ tags
 .history
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,python,vim,visualstudiocode,django
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/zsh
+# Edit at https://www.toptal.com/developers/gitignore?templates=zsh
+
