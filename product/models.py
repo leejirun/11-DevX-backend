@@ -68,7 +68,7 @@ class ProductSizeChart(models.Model):
 
 #9. 상품 사이즈 테이블
 class Size(models.Model):
-    size   = models.CharField(max_length=45)
+    name   = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'sizes'
