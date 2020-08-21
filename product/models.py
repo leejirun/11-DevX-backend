@@ -46,17 +46,14 @@ class ProductColor(models.Model):
 #6. 이미지 테이블
 class Image(models.Model):
     image           = models.TextField(max_length=300)
-    color           = models.CharField(max_length=45)
-    productcolors  = models.ForeignKey('ProductColor',on_delete=models.CASCADE)
+    productcolor    = models.ForeignKey('ProductColor',on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'images'
 
 #7. 상품사이즈 차트 테이블
 class SizeChart(models.Model):
-    size    = models.CharField(max_length=45)
-    length  = models.CharField(max_length=45)
-    width   = models.CharField(max_length=45)
+    table   = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'size_charts'
