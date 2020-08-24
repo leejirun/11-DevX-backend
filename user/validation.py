@@ -1,6 +1,6 @@
 import re
 
-from django.core.exceptions import ValidationError
+from django.core.exceptions         import ValidationError
 
 def Validate_firstname(value):
     firstname_reg   = r"[ᄀ-힣a-zA-Z]{2,10}"
