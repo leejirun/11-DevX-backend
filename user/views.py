@@ -2,21 +2,18 @@ import json,traceback
 import bcrypt 
 import jwt 
 
-from .models                        import User
-from devx.settings                  import SECRET_KEY
-from devx.settings                  import ALGORITHM
-from datetime                       import datetime
-
-from django.views                   import View
 from django.http                    import JsonResponse,HttpResponse
+from django.views                   import View
 from django.core.exceptions         import ValidationError
+
+from devx.settings                  import ALGORITHM
+from devx.settings                  import SECRET_KEY
+from .models                        import User
 from .validation                    import Validate_firstname
 from .validation                    import Validate_lastname
 from .validation                    import Validate_email
 from .validation                    import Validate_password
 from .decorator                     import login_decorator
-
-
 
 class SignUpView(View):
     def post(self,request):
@@ -34,11 +31,8 @@ class SignUpView(View):
             req_User.full_clean() 
             req_User.save() 
         except ValidationError as exceptions: 
-            print(exceptions)
-            msgs = ''
-            for msg in dict(exceptions).values(): 
-                msgs += msg[0] + ' / ' 
-            return JsonResponse({'message':msgs[:-3]},status = 400)
+            tb = traceback.format_exc()
+            return JsonResponse({'message':tb},status = 400)
         except KeyError as exceptions: 
             return JsonResponse({'message':'KEY ERROR'}, status = 401)
         return JsonResponse({'message':'SUCCESS'},status = 200)

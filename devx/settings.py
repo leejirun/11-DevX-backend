@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 SECRET_KEY = my_settings2.SECRET_KEY
 ALGORITHM  = my_settings2.ALGORITHM
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
