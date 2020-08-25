@@ -7,10 +7,10 @@ from .validation            import (
     Validate_password
 )
 class User(models.Model):
-    firstname   = models.CharField(max_length = 100, validators = [Validate_firstname])
-    lastname    = models.CharField(max_length = 100, validators = [Validate_lastname])
-    email       = models.CharField(max_length = 100, validators = [Validate_email], unique = True)
-    password    = models.CharField(max_length = 100, validators = [Validate_password])
+    firstname    = models.CharField(max_length = 100, validators = [Validate_firstname])
+    lastname     = models.CharField(max_length = 100, validators = [Validate_lastname])
+    email        = models.CharField(max_length = 100, validators = [Validate_email], unique = True)
+    password     = models.CharField(max_length = 100, validators = [Validate_password])
     created_time = models.DateTimeField(auto_now_add = True)
     updated_time = models.DateTimeField(auto_now_add = True)
 

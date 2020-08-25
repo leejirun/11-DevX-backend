@@ -32,10 +32,10 @@ class SignUpView(View):
             req_User.save() 
         except ValidationError as exceptions: 
             tb = traceback.format_exc()
-            return JsonResponse({'message':tb},status = 400)
+            return JsonResponse({'message':tb}, status = 400)
         except KeyError as exceptions: 
             return JsonResponse({'message':'KEY ERROR'}, status = 401)
-        return JsonResponse({'message':'SUCCESS'},status = 200)
+        return JsonResponse({'message':'SUCCESS'}, status = 200)
 
 class SignInView(View):
     def post(self,request):
@@ -44,10 +44,10 @@ class SignInView(View):
             if User.objects.filter(email = data['email']).exists() :
                 user = User.objects.get(email = data['email'])
                 if bcrypt.checkpw(data['password'].encode('utf-8'), user.password.encode('utf-8')):
-                    token = jwt.encode({'user_id': user.id}, SECRET_KEY,ALGORITHM=ALGORITHM)
+                    token = jwt.encode({'user_id': user.id}, SECRET_KEY, ALGORITHM = ALGORITHM)
                     token = token.decode('utf-8')
-                    return JsonResponse({'message':"SUCCESS","token":token},status=200)
-            return JsonResponse({'message':'PASSWORD ERROR'},status = 401) 
+                    return JsonResponse({'message':"SUCCESS","token":token}, status = 200)
+            return JsonResponse({'message':'PASSWORD_ERROR'}, status = 401) 
         except KeyError:
-            return JsonResponse({'message':'KEYERROR'},status = 400)       
+            return JsonResponse({'message':'INVALID_KEYS'}, status = 400)       
     
