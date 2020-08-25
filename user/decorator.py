@@ -8,12 +8,12 @@ from devx.settings         import ALGORITHM
 from .models               import User
 
 def login_decorator(func):
-    def wrapper(self,request,*args,**kwargs):
+    def wrapper(self, request, *args, **kwargs):
         try:
-            access_token    = request.headers.get('Authorization',None)
+            access_token = request.headers.get('Authorization', None)
             
             if access_token :                 
-                payload         = jwt.decode(access_token, SECRET_KEY, algorithms= 'ALGORITHM')
+                payload         = jwt.decode(access_token, SECRET_KEY, ALGORITHM = ALGORITHM)
                 user            = User.objects.get(email = payload['email'])
                 request.user    = user
                 return func(self, request, *args, **kwargs)
