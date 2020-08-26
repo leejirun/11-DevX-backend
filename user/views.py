@@ -20,16 +20,15 @@ class SignUpView(View):
         data = json.loads(request.body)
         try:
             password        = data['password'].encode('utf-8')
-            password_crypt  = bcrypt.hashpw(password,bcrypt.gensalt())
-            password_crypt  = password_crypt.decode('utf-8')
-            req_User = User(
+            password_crypt  = bcrypt.hashpw(password,bcrypt.gensalt()).decode('utf-8')
+            request_user = User(
                 firstname  = data['firstname'],
                 lastname   = data['lastname'],
                 email      = data['email'],
                 password   = password_crypt,
             )
-            req_User.full_clean() 
-            req_User.save() 
+            request_user.full_clean() 
+            request_user.save() 
         except ValidationError as exceptions: 
             tb = traceback.format_exc()
             return JsonResponse({'message':tb}, status = 400)
