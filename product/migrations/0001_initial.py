@@ -70,6 +70,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('table', models.CharField(max_length=1000, null=True)),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.product')),
+                ('sizechart', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.sizechart')),
             ],
             options={
                 'db_table': 'size_charts',
