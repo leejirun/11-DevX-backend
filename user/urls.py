@@ -1,6 +1,7 @@
 from django.urls    import path
 
-from .views         import SignUpView,SignInView
+from .views         import SignUpView
+from .views         import SignInView
 
 urlpatterns = [
     path('/signup',SignUpView.as_view()),
