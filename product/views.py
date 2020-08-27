@@ -12,18 +12,21 @@ from .models                import Image, SizeChart, Size, ProductSize
 
 class ProductsView(View):
     def get(self, request):
-        category_num = request.GET.get('category', None)
-        products = Product.objects.prefetch_related('image_set').filter(sub_category=category_num)
+        category_num     = request.GET.get('category', None)
+        wanted_image_num = request.GET.get('num', None)
+        products         = Product.objects.prefetch_related('image_set').filter(sub_category=category_num)
         if products :
-            body = {"category" : products[0].sub_category.name,
+            body = {"category" : products.first().sub_category.name,
                     "products" : [{
                         "name"      : product.name,
                         "price"     : product.price,
-                        "imageURL"  : [literal_eval(product.image_set.get(product=product).image)[i] for i in range(2)]
+                        "imageURL"  : [literal_eval(product.image_set.get(product=product).image)[i] 
+                                        for i in range(int(wanted_image_num))]
                         } for product in products]
                     }
             return JsonResponse(body, status=200)
         return JsonResponse({"Message" : "Invalid Category Number!!"}, status=400)
+       
     
 class ProductView(View):
     def get(self, request, id) :
@@ -31,11 +34,7 @@ class ProductView(View):
             product        = Product.objects.prefetch_related(
                 Prefetch('color', to_attr='to_color')).prefetch_related(
                     Prefetch('size', to_attr='to_size')).get(id=id)
-            list_image     = literal_eval(product.image_set.get(id=id).image) 
-            if "BACK" in list_image[0] :
-                images     = [image for image in list_image if "BACK" in image]
-            elif "FRONT" in list_image[0] :
-                images     = [image for image in list_image if "FRONT" in image]
+            list_image     = literal_eval(product.image_set.get(product=product).image) 
             body = {
                 "products" : [{
                     "product_id": id,
@@ -48,7 +47,7 @@ class ProductView(View):
                     }],
                 "pop-up products" : [{
                     "name"      : product.name,
-                    "imageURL"  : images,
+                    "imageURL"  : [list_image[i] for i in range(0, len(list_image), 2)],
                     "price"     : product.price,
                     "colors"    : [pc.name for pc in product.to_color]
                     }]
