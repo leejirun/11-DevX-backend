@@ -8,20 +8,16 @@ from django.db.models       import Prefetch
 from .models                import Category, SubCategory, Product, Color, ProductColor
 from .models                import Image, SizeChart, Size, ProductSize
 
-
-
 class ProductsView(View):
     def get(self, request):
         category_num     = request.GET.get('category', None)
-        wanted_image_num = request.GET.get('num', None)
         products         = Product.objects.prefetch_related('image_set').filter(sub_category=category_num)
         if products :
             body = {"category" : products.first().sub_category.name,
                     "products" : [{
                         "name"      : product.name,
                         "price"     : product.price,
-                        "imageURL"  : [literal_eval(product.image_set.get(product=product).image)[i] 
-                                        for i in range(int(wanted_image_num))]
+                        "imageURL"  : [image.imageURL for image in product.image_set.all() if image.is_mainimage==1]
                         } for product in products]
                     }
             return JsonResponse(body, status=200)
@@ -34,7 +30,7 @@ class ProductView(View):
             product        = Product.objects.prefetch_related(
                 Prefetch('color', to_attr='to_color')).prefetch_related(
                     Prefetch('size', to_attr='to_size')).get(id=id)
-            list_image     = literal_eval(product.image_set.get(product=product).image) 
+            list_image    = [image.imageURL for image in product.image_set.all()]
             body = {
                 "products" : [{
                     "product_id": id,
@@ -43,7 +39,7 @@ class ProductView(View):
                     "price"     : product.price,
                     "colors"    : [pc.name for pc in product.to_color],
                     "size"      : [sz.name for sz in product.to_size],
-                    "sizechart" : literal_eval(product.sizechart_set.get(id=id).table) 
+                    "sizechart" : [sz.table for sz in product.sizechart_set.all()] 
                     }],
                 "pop-up products" : [{
                     "name"      : product.name,

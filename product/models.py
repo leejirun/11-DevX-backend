@@ -43,8 +43,10 @@ class ProductColor(models.Model):
 
 #6. 이미지 테이블
 class Image(models.Model):
-    product = models.ForeignKey('Product',on_delete=models.CASCADE)
-    image   = models.TextField(max_length=300)
+    product      = models.ForeignKey('Product',on_delete=models.CASCADE)
+    imageURL     = models.URLField(max_length=2000)
+    is_mainimage = models.BooleanField()
+
 
     class Meta:
         db_table = 'images'
