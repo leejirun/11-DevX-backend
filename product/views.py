@@ -22,8 +22,7 @@ class ProductsView(View):
                     }
             return JsonResponse(body, status=200)
         return JsonResponse({"Message" : "Invalid Category Number!!"}, status=400)
-       
-    
+          
 class ProductView(View):
     def get(self, request, id) :
         if Product.objects.prefetch_related('image_set').filter(id=id).exists() :
