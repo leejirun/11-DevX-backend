@@ -9,6 +9,7 @@ __pycache__/
 local_settings.py
 my_settings.py
 my_settings2.py
+db_uploader.py
 db.sqlite3
 db.sqlite3-journal
 media
